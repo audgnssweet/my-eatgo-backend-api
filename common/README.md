@@ -1,1 +1,1 @@
-># 공통 도메인, DTO
+># 공통 도메인, DTO, Enum, Exception
