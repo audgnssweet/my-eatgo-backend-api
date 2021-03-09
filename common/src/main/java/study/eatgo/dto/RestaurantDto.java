@@ -4,10 +4,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.List;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import study.eatgo.enumer.FoodCategory;
+import study.eatgo.enumer.Region;
 
 public class RestaurantDto {
 
@@ -26,6 +29,12 @@ public class RestaurantDto {
         @NotEmpty
         private String information;
 
+        @NotNull
+        private Region region;
+
+        @NotNull
+        private FoodCategory foodCategory;
+
     }
 
     //기본 레스토랑 response dto
@@ -39,6 +48,8 @@ public class RestaurantDto {
         private String name;
         private String address;
         private String information;
+        private Region region;
+        private FoodCategory foodCategory;
 
     }
 

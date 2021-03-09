@@ -10,6 +10,8 @@ import study.eatgo.domain.RestaurantRepository;
 import study.eatgo.dto.MenuItemDto;
 import study.eatgo.dto.RestaurantDto;
 import study.eatgo.dto.ReviewDto;
+import study.eatgo.enumer.FoodCategory;
+import study.eatgo.enumer.Region;
 import study.eatgo.exception.exceptions.RestaurantNotFoundException;
 
 @RequiredArgsConstructor
@@ -20,8 +22,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<RestaurantDto.Response> getRestaurants() {
-        return restaurantRepository.findAll().stream()
+    public List<RestaurantDto.Response> getRestaurantsByRegionAndFoodCategory(Integer regionId, Integer foodCategoryId) {
+        final Region region = Region.fromCode(regionId);
+        final FoodCategory foodCategory = FoodCategory.fromCode(foodCategoryId);
+        return restaurantRepository.findAllByRegionAndFoodCategory(region, foodCategory).stream()
             .map(this::makeRestaurantResponseDto)
             .collect(Collectors.toList());
     }
@@ -80,7 +84,10 @@ public class RestaurantServiceImpl implements RestaurantService {
             .id(foundRestaurant.getId())
             .name(foundRestaurant.getName())
             .address(foundRestaurant.getAddress())
-            .information(foundRestaurant.getInformation()).build();
+            .information(foundRestaurant.getInformation())
+            .region(foundRestaurant.getRegion())
+            .foodCategory(foundRestaurant.getFoodCategory())
+            .build();
     }
 
 }

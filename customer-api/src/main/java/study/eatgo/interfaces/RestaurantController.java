@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import study.eatgo.application.RestaurantService;
 import study.eatgo.dto.RestaurantDto;
+import study.eatgo.enumer.Region;
 
 @CrossOrigin    //CORS정책 피하기위해
 @RequiredArgsConstructor
@@ -24,9 +26,12 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @GetMapping("/restaurants")
-    public List<RestaurantDto.Response> getRestaurants() {
+    public List<RestaurantDto.Response> getRestaurantsByRegion(
+        @RequestParam Integer region,
+        @RequestParam Integer foodCategory
+    ) {
 //        System.out.println(restaurants.get(0).getReviews());  //toString 하면 무한참조 발생.
-        return restaurantService.getRestaurants();
+        return restaurantService.getRestaurantsByRegionAndFoodCategory(region, foodCategory);
     }
 
     @GetMapping("/restaurant/{restaurantId}")

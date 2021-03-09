@@ -80,7 +80,10 @@ public class RestaurantServiceImpl implements RestaurantService {
             .id(foundRestaurant.getId())
             .name(foundRestaurant.getName())
             .address(foundRestaurant.getAddress())
-            .information(foundRestaurant.getInformation()).build();
+            .information(foundRestaurant.getInformation())
+            .region(foundRestaurant.getRegion())
+            .foodCategory(foundRestaurant.getFoodCategory())
+            .build();
     }
 
     @Override
@@ -91,6 +94,8 @@ public class RestaurantServiceImpl implements RestaurantService {
             .name(restaurant.getName())
             .address(restaurant.getAddress())
             .information(restaurant.getInformation())
+            .region(restaurant.getRegion())
+            .foodCategory(restaurant.getFoodCategory())
             .build();
 
         final Restaurant savedRestaurant = restaurantRepository.save(saving);
@@ -105,6 +110,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         foundRestaurant.setName(restaurant.getName())
             .setAddress(restaurant.getAddress())
-            .setInformation(restaurant.getInformation());
+            .setInformation(restaurant.getInformation())
+            .setRegion(restaurant.getRegion())
+            .setFoodCategory(restaurant.getFoodCategory());
     }
 }

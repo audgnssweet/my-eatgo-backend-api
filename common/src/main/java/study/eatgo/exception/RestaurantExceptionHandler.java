@@ -4,8 +4,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import study.eatgo.exception.exceptions.FoodCategoryInvalidException;
 import study.eatgo.exception.exceptions.MenuItemNotFoundException;
+import study.eatgo.exception.exceptions.RegionInvalidException;
 import study.eatgo.exception.exceptions.RestaurantNotFoundException;
+import study.eatgo.exception.exceptions.ReviewNotFoundException;
 
 @RestControllerAdvice
 public class RestaurantExceptionHandler {
@@ -23,6 +26,21 @@ public class RestaurantExceptionHandler {
 
     @ExceptionHandler(MenuItemNotFoundException.class)
     public String handleMenuItemNotFoundException(MenuItemNotFoundException e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(ReviewNotFoundException.class)
+    public String handleReviewNotFoundException(ReviewNotFoundException e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(RegionInvalidException.class)
+    public String HandleRegionInvalidException(RegionInvalidException e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(FoodCategoryInvalidException.class)
+    public String HandleFoodCategoryInvalidException(FoodCategoryInvalidException e) {
         return e.getMessage();
     }
 }
