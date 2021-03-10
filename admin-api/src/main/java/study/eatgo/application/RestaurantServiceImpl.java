@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.eatgo.domain.Restaurant;
 import study.eatgo.domain.RestaurantRepository;
-import study.eatgo.dto.MenuItemDto;
+import study.eatgo.dto.MenuDto;
 import study.eatgo.dto.RestaurantDto;
 import study.eatgo.dto.ReviewDto;
 import study.eatgo.exception.exceptions.RestaurantNotFoundException;
@@ -35,21 +35,21 @@ public class RestaurantServiceImpl implements RestaurantService {
         // 레스토랑디테일, 메뉴, 리뷰 따로 만들어서 넣어주기
         final RestaurantDto.Response restaurant = makeRestaurantResponseDto(foundRestaurant);
 
-        List<MenuItemDto.Response> menuItems = makeMenuItemResponseDtoList(foundRestaurant);
+        List<MenuDto.Response> menus = makeMenuItemResponseDtoList(foundRestaurant);
 
         List<ReviewDto.Response> reviews = makeReviewResponseDtoList(foundRestaurant);
 
-        return makeRestaurantDetailDto(restaurant, menuItems, reviews);
+        return makeRestaurantDetailDto(restaurant, menus, reviews);
     }
 
     private RestaurantDto.DetailResponse makeRestaurantDetailDto(
         RestaurantDto.Response restaurant,
-        List<MenuItemDto.Response> menuItems,
+        List<MenuDto.Response> menus,
         List<ReviewDto.Response> reviews
     ) {
         return RestaurantDto.DetailResponse.builder()
             .restaurant(restaurant)
-            .menuItems(menuItems)
+            .menus(menus)
             .reviews(reviews)
             .build();
     }
@@ -66,10 +66,10 @@ public class RestaurantServiceImpl implements RestaurantService {
         }).collect(Collectors.toList());
     }
 
-    private List<MenuItemDto.Response> makeMenuItemResponseDtoList(Restaurant foundRestaurant) {
+    private List<MenuDto.Response> makeMenuItemResponseDtoList(Restaurant foundRestaurant) {
         return foundRestaurant.getMenuItems().stream().map(menuItem -> {
-            return MenuItemDto.Response.builder()
-                .menuName(menuItem.getName())
+            return MenuDto.Response.builder()
+                .name(menuItem.getName())
                 .restaurantId(menuItem.getId())
                 .build();
         }).collect(Collectors.toList());
@@ -79,8 +79,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         return RestaurantDto.Response.builder()
             .id(foundRestaurant.getId())
             .name(foundRestaurant.getName())
-            .address(foundRestaurant.getAddress())
-            .information(foundRestaurant.getInformation())
             .region(foundRestaurant.getRegion())
             .foodCategory(foundRestaurant.getFoodCategory())
             .build();
@@ -92,8 +90,6 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         Restaurant saving = Restaurant.builder()
             .name(restaurant.getName())
-            .address(restaurant.getAddress())
-            .information(restaurant.getInformation())
             .region(restaurant.getRegion())
             .foodCategory(restaurant.getFoodCategory())
             .build();
@@ -109,9 +105,12 @@ public class RestaurantServiceImpl implements RestaurantService {
             .orElseThrow(RestaurantNotFoundException::new);
 
         foundRestaurant.setName(restaurant.getName())
-            .setAddress(restaurant.getAddress())
-            .setInformation(restaurant.getInformation())
             .setRegion(restaurant.getRegion())
             .setFoodCategory(restaurant.getFoodCategory());
+    }
+
+    @Override
+    public void deleteRestaurant(Integer restaurantId) {
+        restaurantRepository.deleteById(restaurantId);
     }
 }

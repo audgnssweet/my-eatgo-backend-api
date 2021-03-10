@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import study.eatgo.application.RestaurantService;
 import study.eatgo.dto.RestaurantDto;
+import study.eatgo.enumer.FoodCategory;
 import study.eatgo.enumer.Region;
 
 @CrossOrigin    //CORS정책 피하기위해
@@ -26,9 +27,9 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @GetMapping("/restaurants")
-    public List<RestaurantDto.Response> getRestaurantsByRegion(
-        @RequestParam Integer region,
-        @RequestParam Integer foodCategory
+    public List<RestaurantDto.Response> getRestaurantsByRegionAndFoodCategory(
+        @RequestParam Region region,
+        @RequestParam FoodCategory foodCategory
     ) {
 //        System.out.println(restaurants.get(0).getReviews());  //toString 하면 무한참조 발생.
         return restaurantService.getRestaurantsByRegionAndFoodCategory(region, foodCategory);

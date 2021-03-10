@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.eatgo.domain.Restaurant;
 import study.eatgo.domain.RestaurantRepository;
-import study.eatgo.dto.MenuItemDto;
+import study.eatgo.dto.MenuDto;
 import study.eatgo.dto.RestaurantDto;
 import study.eatgo.dto.ReviewDto;
 import study.eatgo.enumer.FoodCategory;
@@ -22,9 +22,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<RestaurantDto.Response> getRestaurantsByRegionAndFoodCategory(Integer regionId, Integer foodCategoryId) {
-        final Region region = Region.fromCode(regionId);
-        final FoodCategory foodCategory = FoodCategory.fromCode(foodCategoryId);
+    public List<RestaurantDto.Response> getRestaurantsByRegionAndFoodCategory(Region region, FoodCategory foodCategory) {
         return restaurantRepository.findAllByRegionAndFoodCategory(region, foodCategory).stream()
             .map(this::makeRestaurantResponseDto)
             .collect(Collectors.toList());
@@ -39,21 +37,21 @@ public class RestaurantServiceImpl implements RestaurantService {
         // 레스토랑디테일, 메뉴, 리뷰 따로 만들어서 넣어주기
         final RestaurantDto.Response restaurant = makeRestaurantResponseDto(foundRestaurant);
 
-        List<MenuItemDto.Response> menuItems = makeMenuItemResponseDtoList(foundRestaurant);
+        List<MenuDto.Response> menus = makeMenuResponseDtoList(foundRestaurant);
 
         List<ReviewDto.Response> reviews = makeReviewResponseDtoList(foundRestaurant);
 
-        return makeRestaurantDetailDto(restaurant, menuItems, reviews);
+        return makeRestaurantDetailDto(restaurant, menus, reviews);
     }
 
     private RestaurantDto.DetailResponse makeRestaurantDetailDto(
         RestaurantDto.Response restaurant,
-        List<MenuItemDto.Response> menuItems,
+        List<MenuDto.Response> menus,
         List<ReviewDto.Response> reviews
     ) {
         return RestaurantDto.DetailResponse.builder()
             .restaurant(restaurant)
-            .menuItems(menuItems)
+            .menus(menus)
             .reviews(reviews)
             .build();
     }
@@ -70,11 +68,12 @@ public class RestaurantServiceImpl implements RestaurantService {
         }).collect(Collectors.toList());
     }
 
-    private List<MenuItemDto.Response> makeMenuItemResponseDtoList(Restaurant foundRestaurant) {
-        return foundRestaurant.getMenuItems().stream().map(menuItem -> {
-            return MenuItemDto.Response.builder()
-                .menuName(menuItem.getName())
-                .restaurantId(menuItem.getId())
+    private List<MenuDto.Response> makeMenuResponseDtoList(Restaurant foundRestaurant) {
+        return foundRestaurant.getMenuItems().stream().map(menu -> {
+            return MenuDto.Response.builder()
+                .id(menu.getId())
+                .name(menu.getName())
+                .restaurantId(menu.getId())
                 .build();
         }).collect(Collectors.toList());
     }
@@ -83,8 +82,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         return RestaurantDto.Response.builder()
             .id(foundRestaurant.getId())
             .name(foundRestaurant.getName())
-            .address(foundRestaurant.getAddress())
-            .information(foundRestaurant.getInformation())
             .region(foundRestaurant.getRegion())
             .foodCategory(foundRestaurant.getFoodCategory())
             .build();

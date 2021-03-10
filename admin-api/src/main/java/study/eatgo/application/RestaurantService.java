@@ -17,4 +17,7 @@ public interface RestaurantService {
 
     @Transactional
     void updateRestaurant(Integer restaurantId, RestaurantDto.Request restaurant);
+
+    @Transactional
+    void deleteRestaurant(Integer restaurantId);
 }

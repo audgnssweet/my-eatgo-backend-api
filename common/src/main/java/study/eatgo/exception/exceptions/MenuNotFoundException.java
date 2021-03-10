@@ -1,8 +1,8 @@
 package study.eatgo.exception.exceptions;
 
-public class MenuItemNotFoundException extends RuntimeException{
+public class MenuNotFoundException extends RuntimeException{
 
-    public MenuItemNotFoundException() {
+    public MenuNotFoundException() {
         super("해당 id의 메뉴는 없습니다");
     }
 }

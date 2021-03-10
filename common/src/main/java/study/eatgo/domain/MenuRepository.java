@@ -2,6 +2,6 @@ package study.eatgo.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MenuItemRepository extends JpaRepository<MenuItem, Integer> {
+public interface MenuRepository extends JpaRepository<Menu, Integer> {
 
 }

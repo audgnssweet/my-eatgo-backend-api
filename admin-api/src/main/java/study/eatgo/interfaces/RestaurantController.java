@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,6 +50,12 @@ public class RestaurantController {
     public String updateRestaurant(@PathVariable Integer restaurantId,
         @Valid @RequestBody RestaurantDto.Request restaurant) {
         restaurantService.updateRestaurant(restaurantId, restaurant);
+        return "{}";
+    }
+
+    @DeleteMapping("/restaurant/{restaurantId}")
+    public String deleteRestaurant(@PathVariable Integer restaurantId) {
+        restaurantService.deleteRestaurant(restaurantId);
         return "{}";
     }
 

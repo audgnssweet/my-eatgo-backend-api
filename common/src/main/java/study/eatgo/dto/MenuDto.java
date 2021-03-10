@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-public class MenuItemDto {
+public class MenuDto {
 
     @AllArgsConstructor
     @NoArgsConstructor
@@ -26,7 +26,8 @@ public class MenuItemDto {
     @Data
     public static class Response {
 
-        private String menuName;
+        private Integer id;
+        private String name;
         private Integer restaurantId;
     }
 

@@ -1,18 +1,11 @@
 package study.eatgo.enumer;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import org.springframework.core.convert.converter.Converter;
 
-@Converter
-public class FoodCategoryConverter implements AttributeConverter<FoodCategory, Integer> {
+public class FoodCategoryConverter implements Converter<String, FoodCategory> {
 
     @Override
-    public Integer convertToDatabaseColumn(FoodCategory foodCategory) {
-        return foodCategory.getCode();
-    }
-
-    @Override
-    public FoodCategory convertToEntityAttribute(Integer code) {
-        return FoodCategory.fromCode(code);
+    public FoodCategory convert(String code) {
+        return FoodCategory.fromCode(Integer.valueOf(code));
     }
 }

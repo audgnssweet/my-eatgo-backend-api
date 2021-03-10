@@ -2,13 +2,9 @@ package study.eatgo.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,27 +13,20 @@ import lombok.experimental.Accessors;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder    //속성이 많아질수록 Builder을 쓰는 것이 유리하다.
 @Accessors(chain = true)
 @Data
 @Entity
-public class Review {
+public class User {
 
     @Id
-    @Column(name = "review_id")
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
-    private String username;
+    @Column(unique = true)
+    private String email;
 
-    @NotNull
-    private Integer score;
-
-    private String content;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurant;
+    private String name;
 
 }

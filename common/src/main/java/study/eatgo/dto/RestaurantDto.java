@@ -23,12 +23,6 @@ public class RestaurantDto {
         @NotEmpty
         private String name;
 
-        @NotEmpty
-        private String address;
-
-        @NotEmpty
-        private String information;
-
         @NotNull
         private Region region;
 
@@ -46,8 +40,6 @@ public class RestaurantDto {
 
         private Integer id;
         private String name;
-        private String address;
-        private String information;
         private Region region;
         private FoodCategory foodCategory;
 
@@ -60,7 +52,7 @@ public class RestaurantDto {
     public static class DetailResponse {
 
         private Response restaurant;
-        private List<MenuItemDto.Response> menuItems;
+        private List<MenuDto.Response> menus;
 
         @JsonInclude(Include.NON_EMPTY)
         private List<ReviewDto.Response> reviews;
