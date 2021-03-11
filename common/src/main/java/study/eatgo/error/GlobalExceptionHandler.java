@@ -6,15 +6,17 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import study.eatgo.error.exceptions.FoodCategoryInvalidException;
-import study.eatgo.error.exceptions.MenuNotFoundException;
-import study.eatgo.error.exceptions.RegionInvalidException;
-import study.eatgo.error.exceptions.RestaurantNotFoundException;
-import study.eatgo.error.exceptions.ReviewNotFoundException;
-import study.eatgo.error.exceptions.RoleInvalidException;
+import study.eatgo.domain.restaurant.exception.FoodCategoryInvalidException;
+import study.eatgo.domain.menu.exception.MenuNotFoundException;
+import study.eatgo.domain.restaurant.exception.RegionInvalidException;
+import study.eatgo.domain.restaurant.exception.RestaurantNotFoundException;
+import study.eatgo.domain.review.exception.ReviewNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    //TODO: 비즈니스에러는 묶어서 처리할 것
+    //TODO: 에러는 주석으로 구체적 상황 명시해주는 것이 좋음.
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleMethodArgumentNotValidException(
@@ -52,9 +54,11 @@ public class GlobalExceptionHandler {
         return e.getMessage();
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(RoleInvalidException.class)
-    public String HandleRoleInvalidException(RoleInvalidException e) {
-        return e.getMessage();
+    @ExceptionHandler(Exception.class)
+    public String HandleAllException(Exception e) {
+        //로그 출력
+        e.printStackTrace();
+        return "{기타에러 발생}";
     }
+
 }

@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import study.eatgo.domain.restaurant.dao.RestaurantRepository;
 import study.eatgo.domain.review.dao.ReviewRepository;
-import study.eatgo.error.exceptions.RestaurantNotFoundException;
-import study.eatgo.error.exceptions.ReviewNotFoundException;
+import study.eatgo.domain.restaurant.exception.RestaurantNotFoundException;
+import study.eatgo.domain.review.exception.ReviewNotFoundException;
 
 @RequiredArgsConstructor
 @Service

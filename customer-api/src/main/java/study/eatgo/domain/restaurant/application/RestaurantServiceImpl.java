@@ -12,7 +12,7 @@ import study.eatgo.domain.restaurant.dto.RestaurantDto;
 import study.eatgo.domain.review.dto.ReviewDto;
 import study.eatgo.domain.restaurant.model.FoodCategory;
 import study.eatgo.domain.restaurant.model.Region;
-import study.eatgo.error.exceptions.RestaurantNotFoundException;
+import study.eatgo.domain.restaurant.exception.RestaurantNotFoundException;
 
 @RequiredArgsConstructor
 @Service

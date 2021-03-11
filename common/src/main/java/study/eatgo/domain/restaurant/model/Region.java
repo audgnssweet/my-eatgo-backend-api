@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import study.eatgo.error.exceptions.RegionInvalidException;
+import study.eatgo.domain.restaurant.exception.RegionInvalidException;
 
 @AllArgsConstructor
 public enum Region {

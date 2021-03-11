@@ -1,4 +1,4 @@
-package study.eatgo.error.exceptions;
+package study.eatgo.domain.menu.exception;
 
 public class MenuNotFoundException extends RuntimeException{
 

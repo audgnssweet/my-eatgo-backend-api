@@ -1,4 +1,4 @@
-package study.eatgo.error.exceptions;
+package study.eatgo.domain.review.exception;
 
 public class ReviewNotFoundException extends RuntimeException{
 

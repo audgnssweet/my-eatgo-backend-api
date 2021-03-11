@@ -1,4 +1,4 @@
-package study.eatgo.error.exceptions;
+package study.eatgo.domain.restaurant.exception;
 
 public class RestaurantNotFoundException extends RuntimeException {
 

@@ -9,8 +9,8 @@ import study.eatgo.domain.menu.dao.MenuRepository;
 import study.eatgo.domain.restaurant.domain.Restaurant;
 import study.eatgo.domain.restaurant.dao.RestaurantRepository;
 import study.eatgo.domain.menu.dto.MenuDto;
-import study.eatgo.error.exceptions.MenuNotFoundException;
-import study.eatgo.error.exceptions.RestaurantNotFoundException;
+import study.eatgo.domain.menu.exception.MenuNotFoundException;
+import study.eatgo.domain.restaurant.exception.RestaurantNotFoundException;
 
 @RequiredArgsConstructor
 @Service

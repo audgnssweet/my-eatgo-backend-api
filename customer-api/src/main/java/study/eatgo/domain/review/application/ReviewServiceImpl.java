@@ -7,7 +7,7 @@ import study.eatgo.domain.restaurant.dao.RestaurantRepository;
 import study.eatgo.domain.review.domain.Review;
 import study.eatgo.domain.review.dao.ReviewRepository;
 import study.eatgo.domain.review.dto.ReviewDto;
-import study.eatgo.error.exceptions.RestaurantNotFoundException;
+import study.eatgo.domain.restaurant.exception.RestaurantNotFoundException;
 
 @RequiredArgsConstructor
 @Service
