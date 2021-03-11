@@ -1,13 +1,15 @@
 package study.eatgo.domain.user.model;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@ToString(of = {})
+@Embeddable
+@ToString(of = {"first","last"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Name {

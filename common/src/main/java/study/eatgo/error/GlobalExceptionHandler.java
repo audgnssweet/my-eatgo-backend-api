@@ -10,6 +10,9 @@ import study.eatgo.domain.restaurant.exception.FoodCategoryInvalidException;
 import study.eatgo.domain.restaurant.exception.RegionInvalidException;
 import study.eatgo.domain.restaurant.exception.RestaurantNotFoundException;
 import study.eatgo.domain.review.exception.ReviewNotFoundException;
+import study.eatgo.domain.user.exception.EmailAlreadyExistException;
+import study.eatgo.domain.user.exception.EmailNotFoundException;
+import study.eatgo.domain.user.exception.PasswordNotMatchException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -44,6 +47,24 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(FoodCategoryInvalidException.class)
     public String HandleFoodCategoryInvalidException(FoodCategoryInvalidException e) {
+        return e.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(EmailAlreadyExistException.class)
+    public String HandleEmailAlreadyExistException(EmailAlreadyExistException e) {
+        return e.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    @ExceptionHandler(EmailNotFoundException.class)
+    public String HandleEmailNotFoundException(EmailNotFoundException e) {
+        return e.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    @ExceptionHandler(PasswordNotMatchException.class)
+    public String HandlePasswordNotMatchException(PasswordNotMatchException e) {
         return e.getMessage();
     }
 
