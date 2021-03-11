@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import study.eatgo.domain.restaurant.exception.FoodCategoryInvalidException;
-import study.eatgo.domain.menu.exception.MenuNotFoundException;
 import study.eatgo.domain.restaurant.exception.RegionInvalidException;
 import study.eatgo.domain.restaurant.exception.RestaurantNotFoundException;
 import study.eatgo.domain.review.exception.ReviewNotFoundException;
@@ -27,12 +26,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(RestaurantNotFoundException.class)
     public String handleRestaurantNotFoundException(RestaurantNotFoundException e) {
-        return e.getMessage();
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(MenuNotFoundException.class)
-    public String handleMenuItemNotFoundException(MenuNotFoundException e) {
         return e.getMessage();
     }
 
