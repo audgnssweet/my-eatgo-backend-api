@@ -1,21 +1,27 @@
 package study.eatgo.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import study.eatgo.jwt.JwtUtil;
+import study.eatgo.domain.user.dao.UserRepository;
+import study.eatgo.jwt.JwtAuthorizationFilter;
+import study.eatgo.jwt.JwtTokenProvider;
 
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
 
+    private final UserRepository userRepository;
+
     @Bean
-    JwtUtil jwtUtil() {
-        return new JwtUtil(JwtConfig.SECRET);
+    JwtTokenProvider jwtUtil() {
+        return new JwtTokenProvider(JwtConfig.SECRET);
     }
 
     @Bean
@@ -26,8 +32,13 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .csrf().disable()
             .cors().disable()
-            .formLogin().disable();
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .formLogin().disable()
+            .httpBasic().disable()
+            .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtUtil(), userRepository));
     }
+
 }

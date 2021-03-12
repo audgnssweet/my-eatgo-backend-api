@@ -8,5 +8,6 @@ public final class JwtConfig {
     public static final Long DURATION =  1000 * 60 * 10L;  //Date기준 6000 - 1초
     public static final String ALGORITHM = "HS256";
     public static final String TYPE = "JWT";
-
+    public static final String HEADER = "Authorization";
+    public static final String TOKEN_PREFIX = "Bearer ";
 }

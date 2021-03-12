@@ -1,7 +1,9 @@
 package study.eatgo.domain.restaurant.api;
 
+import io.jsonwebtoken.Claims;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +20,7 @@ public class RestaurantApi {
 
     @GetMapping("/restaurants")
     public RestaurantResponse findRestaurantByRegion(@RequestParam Region region) {
+
         final List<Restaurant> restaurants = restaurantFindService
             .getRestaurantsByRegion(region);
 

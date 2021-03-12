@@ -11,14 +11,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import study.eatgo.domain.restaurant.domain.Restaurant;
 import study.eatgo.domain.review.domain.Review;
+import study.eatgo.domain.user.domain.User;
 
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @Getter
 public class ReviewAddRequest {
-
-    @Valid
-    @NotEmpty
-    private String username;
 
     @Valid
     @Min(0)
@@ -28,10 +25,10 @@ public class ReviewAddRequest {
 
     private String content;
 
-    public Review toEntity(Restaurant restaurant) {
+    public Review toEntity(User user, Restaurant restaurant) {
         return Review.builder()
-            .username(username)
             .score(score)
+            .user(user)
             .content(content)
             .restaurant(restaurant)
             .build();

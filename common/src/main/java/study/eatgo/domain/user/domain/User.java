@@ -32,7 +32,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", updatable = false)
-    private Integer id;
+    private Long id;
 
     //name -> Email 객체 안의 column, Column은 주테이블에 어떻게 매핑될지.
     @Embedded

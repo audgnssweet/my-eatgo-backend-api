@@ -1,5 +1,6 @@
 package study.eatgo.error;
 
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -65,6 +66,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     @ExceptionHandler(PasswordNotMatchException.class)
     public String HandlePasswordNotMatchException(PasswordNotMatchException e) {
+        return e.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    @ExceptionHandler(JwtException.class)
+    public String HandleJwtException(JwtException e) {
         return e.getMessage();
     }
 

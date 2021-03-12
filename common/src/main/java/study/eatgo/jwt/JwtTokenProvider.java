@@ -1,5 +1,8 @@
 package study.eatgo.jwt;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -10,15 +13,16 @@ import java.util.Map;
 import study.eatgo.config.JwtConfig;
 import study.eatgo.domain.user.domain.User;
 
-public class JwtUtil {
+public class JwtTokenProvider {
 
     private final Key key;
 
     //secret key 만들기.
-    public JwtUtil(String secret) {
+    public JwtTokenProvider(String secret) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
+    //Token 만들기
     public String createToken(User user) {
 
         //헤더
@@ -44,5 +48,28 @@ public class JwtUtil {
             .compact();
 
         return jwtToken;
+
     }
+
+    //유효성 & 만료일자 확인
+    public boolean validateToken(String jwtToken) {
+        try {
+            final Jws<Claims> claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(jwtToken);
+            return !claims.getBody().getExpiration().before(new Date());
+        } catch (JwtException e) {
+            return false;
+        }
+    }
+
+    public Claims getClaims(String jwtToken) {
+        return Jwts.parserBuilder()
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(jwtToken)
+            .getBody();
+    }
+
 }

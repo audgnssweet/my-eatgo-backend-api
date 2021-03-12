@@ -22,9 +22,10 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import study.eatgo.domain.restaurant.domain.Restaurant;
+import study.eatgo.domain.user.domain.User;
 
 @EqualsAndHashCode(of = {"id"})
-@ToString(of = {"username","score","content"})
+@ToString(of = {"score","content"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "review")
@@ -34,11 +35,12 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id", updatable = false)
-    private Integer id;
+    private Long id;
 
-    //TODO: User table과 Mapping
-    @Column(name = "username", nullable = false, updatable = false, length = 50)
-    private String username;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Min(0)
     @Max(5)
@@ -64,11 +66,16 @@ public class Review {
     private LocalDateTime updateAt;
 
     @Builder
-    public Review(String username, Integer score, String content, Restaurant restaurant) {
-        this.username = username;
+    public Review(User user, Integer score, String content, Restaurant restaurant) {
+        this.user = user;
         this.score = score;
         this.content = content;
         this.restaurant = restaurant;
+    }
+
+    //JSON 변환을 위해서.
+    public String getUsername() {
+        return this.user.getName().getFullName();
     }
 
 }
