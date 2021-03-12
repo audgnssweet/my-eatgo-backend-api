@@ -17,7 +17,7 @@ public class ReviewApi {
 
     @GetMapping("/restaurants/{restaurantId}/reviews")
     public ReviewResponse getReviews(@PathVariable Long restaurantId) {
-        List<Review> reviews = reviewFindService.findAll(restaurantId);
+        List<Review> reviews = reviewFindService.findAllByRestaurantId(restaurantId);
         return new ReviewResponse(reviews);
     }
 }

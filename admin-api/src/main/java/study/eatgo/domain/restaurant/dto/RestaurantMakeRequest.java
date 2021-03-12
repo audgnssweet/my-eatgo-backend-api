@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import study.eatgo.domain.restaurant.domain.Restaurant;
 import study.eatgo.domain.restaurant.model.Menu;
 import study.eatgo.domain.restaurant.model.Region;
+import study.eatgo.domain.user.domain.User;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
@@ -32,9 +33,10 @@ public class RestaurantMakeRequest {
     /*
     Entity로 바꾸는 책임을 스스로에게 지게 한다.
      */
-    public Restaurant toEntity() {
+    public Restaurant toEntity(final User user) {
         return Restaurant.builder()
             .name(name)
+            .user(user)
             .region(region)
             .menuList(menuList)
             .build();

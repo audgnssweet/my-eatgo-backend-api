@@ -3,8 +3,10 @@ package study.eatgo.domain.review.application;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import study.eatgo.domain.restaurant.exception.RestaurantNotFoundException;
 import study.eatgo.domain.review.dao.ReviewDeleteRepository;
 import study.eatgo.domain.review.dao.ReviewRepository;
+import study.eatgo.domain.user.domain.User;
 
 /*
 해당 클래스 기능 : 레스토랑 탈퇴시.
@@ -17,7 +19,10 @@ public class ReviewRemoveService {
 
     private final ReviewDeleteRepository reviewDeleteRepository;
 
-    public void removeAllInRestaurant(Long restaurantId) {
-        reviewDeleteRepository.removeAllByRestaurantId(restaurantId);
+    public void removeAllInRestaurant(User user) {
+        if (!user.isOwner()) {
+            throw new RestaurantNotFoundException();
+        }
+        reviewDeleteRepository.removeAllByRestaurantId(user.getRestaurant().getId());
     }
 }

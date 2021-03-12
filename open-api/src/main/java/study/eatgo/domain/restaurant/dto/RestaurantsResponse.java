@@ -8,11 +8,11 @@ import study.eatgo.domain.restaurant.domain.Restaurant;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RestaurantResponse {
+public class RestaurantsResponse {
 
     private List<Restaurant> restaurants;
 
-    public RestaurantResponse(final List<Restaurant> restaurants) {
+    public RestaurantsResponse(final List<Restaurant> restaurants) {
         this.restaurants = restaurants;
     }
 

@@ -10,7 +10,7 @@ import study.eatgo.domain.restaurant.model.Region;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RestaurantResponse {
+public class MyRestaurantResponse {
 
     private String name;
 
@@ -19,7 +19,7 @@ public class RestaurantResponse {
     private List<Menu> menuList;
 
     // RestaurantResponse를 만드는 책임도 스스로에게 부여함.
-    public RestaurantResponse(final Restaurant restaurant) {
+    public MyRestaurantResponse(final Restaurant restaurant) {
         this.name = restaurant.getName();
         this.region = restaurant.getRegion();
         this.menuList = restaurant.getMenuList();

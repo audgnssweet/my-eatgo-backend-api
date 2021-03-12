@@ -1,5 +1,6 @@
 package study.eatgo.domain.restaurant.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +10,13 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -24,6 +28,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import study.eatgo.domain.restaurant.model.Menu;
 import study.eatgo.domain.restaurant.model.Region;
+import study.eatgo.domain.user.domain.User;
 
 @EqualsAndHashCode(of = {"id"})
 @ToString(of = {"name", "region"})
@@ -38,6 +43,11 @@ public class Restaurant {
     @Column(name = "restaurant_id", updatable = false)
     private Long id;
 
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
+    private User user;
+
     @Column(name = "name", nullable = false, length = 50, unique = true, updatable = false)
     private String name;
 
@@ -47,6 +57,7 @@ public class Restaurant {
 
     //이렇게하면 완전 종속 관계여서 자동으로 cascade REMOVE 적용.
     //그리고 기본적으로 LAZY 걸려있음.
+    @JsonIgnore
     @ElementCollection
     @CollectionTable(name = "menu", joinColumns = @JoinColumn(name = "restaurant_id"))
     private List<Menu> menuList = new ArrayList<>();
@@ -60,7 +71,8 @@ public class Restaurant {
     private LocalDateTime updateAt;
 
     @Builder
-    public Restaurant(String name, Region region, List<Menu> menuList) {
+    public Restaurant(User user, String name, Region region, List<Menu> menuList) {
+        this.user = user;
         this.name = name;
         this.region = region;
         this.menuList = menuList;

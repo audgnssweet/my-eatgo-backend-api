@@ -1,14 +1,21 @@
 package study.eatgo.domain.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -18,6 +25,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import study.eatgo.domain.restaurant.domain.Restaurant;
 import study.eatgo.domain.user.model.Email;
 import study.eatgo.domain.user.model.Name;
 
@@ -49,6 +57,10 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    private Restaurant restaurant;
+
     @CreationTimestamp
     @Column(name = "create_at", updatable = false, nullable = false)
     private LocalDateTime createAt;
@@ -70,6 +82,10 @@ public class User {
 
     public boolean checkPassword(String password) {
         return this.password.equals(password);
+    }
+
+    public boolean isOwner() {
+        return Objects.nonNull(restaurant);
     }
 
 }

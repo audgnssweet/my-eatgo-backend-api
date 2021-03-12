@@ -1,16 +1,17 @@
 package study.eatgo.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import study.eatgo.config.JwtConfig;
 import study.eatgo.domain.user.domain.User;
 
 public class JwtTokenProvider {
@@ -51,25 +52,29 @@ public class JwtTokenProvider {
 
     }
 
-    //유효성 & 만료일자 확인
-    public boolean validateToken(String jwtToken) {
+    //TODO: 긴 토큰 발급 필요.
+
+    //유효성 & 만료일자  확인
+    public boolean verifyToken(String jwtToken) throws JwtException{
         try {
-            final Jws<Claims> claims = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(jwtToken);
-            return !claims.getBody().getExpiration().before(new Date());
-        } catch (JwtException e) {
-            return false;
+            final Claims claims = getClaims(jwtToken);
+            return !claims.getExpiration().before(new Date());
+        } catch (ExpiredJwtException e) {
+            throw new JwtException("토큰 기간이 만료되었습니다");
         }
     }
 
-    public Claims getClaims(String jwtToken) {
-        return Jwts.parserBuilder()
-            .setSigningKey(key)
-            .build()
-            .parseClaimsJws(jwtToken)
-            .getBody();
+    //payload 정보 얻어오기
+    public Claims getClaims(String jwtToken) throws JwtException{
+        try {
+            return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(jwtToken)
+                .getBody();
+        } catch (MalformedJwtException e) {
+            throw new JwtException("토큰이 올바르지 않습니다");
+        }
     }
 
 }

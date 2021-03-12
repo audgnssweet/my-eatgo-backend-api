@@ -3,6 +3,7 @@ package study.eatgo.domain.restaurant.api;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +18,9 @@ import study.eatgo.domain.restaurant.application.RestaurantUpdateService;
 import study.eatgo.domain.restaurant.domain.Restaurant;
 import study.eatgo.domain.restaurant.dto.MenuUpdateRequest;
 import study.eatgo.domain.restaurant.dto.RestaurantMakeRequest;
-import study.eatgo.domain.restaurant.dto.RestaurantResponse;
+import study.eatgo.domain.restaurant.dto.MyRestaurantResponse;
 import study.eatgo.domain.review.application.ReviewRemoveService;
+import study.eatgo.domain.user.domain.User;
 
 @RequestMapping("/restaurants")
 @RequiredArgsConstructor
@@ -32,30 +34,42 @@ public class RestaurantApi {
     private final RestaurantInfoService restaurantInfoService;
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/{id}")
-    public RestaurantResponse getRestaurantInfo(@PathVariable Long id) {
-        final Restaurant restaurant = restaurantInfoService.getRestaurantInfo(id);
-        return new RestaurantResponse(restaurant);
+    @GetMapping("/me")
+    public MyRestaurantResponse getRestaurantInfo(Authentication authentication) {
+        User me = (User) authentication.getPrincipal();
+
+        final Restaurant restaurant = restaurantInfoService.getRestaurantInfo(me.getId());
+        return new MyRestaurantResponse(restaurant);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public RestaurantResponse makeRestaurant(@RequestBody @Valid RestaurantMakeRequest dto) {
-        final Restaurant restaurant = restaurantUpdateService.make(dto);
-        return new RestaurantResponse(restaurant);
+    public MyRestaurantResponse makeRestaurant(
+        @RequestBody @Valid RestaurantMakeRequest dto,
+        Authentication authentication
+    ) {
+        User user = (User) authentication.getPrincipal();
+
+        final Restaurant restaurant = restaurantUpdateService.make(dto, user);
+        return new MyRestaurantResponse(restaurant);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/{id}/menu")
-    public void updateMenu(@PathVariable Long id, @RequestBody @Valid MenuUpdateRequest dto) {
-        restaurantUpdateService.updateMenu(id, dto);
+    @PutMapping("/me/menu")
+    public void updateMenu(@RequestBody @Valid MenuUpdateRequest dto,
+        Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+
+        restaurantUpdateService.updateMenu(user.getId(), dto);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}")
-    public void deleteRestaurant(@PathVariable Long id) {
-        reviewRemoveService.removeAllInRestaurant(id);
-        restaurantUpdateService.delete(id);
+    @DeleteMapping("/me")
+    public void deleteRestaurant(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+
+        reviewRemoveService.removeAllInRestaurant(user);
+        restaurantUpdateService.delete(user);
     }
 
 }

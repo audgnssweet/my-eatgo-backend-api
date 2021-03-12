@@ -14,7 +14,7 @@ public class ReviewFindService {
 
     private final ReviewRepository reviewRepository;
 
-    public List<Review> findAll(Long restaurantId) {
+    public List<Review> findAllByRestaurantId(Long restaurantId) {
         return reviewRepository.findAllByRestaurantId(restaurantId);
     }
 

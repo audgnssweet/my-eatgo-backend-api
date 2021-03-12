@@ -1,4 +1,4 @@
-package study.eatgo.config;
+package study.eatgo.jwt;
 
 public final class JwtConfig {
 
