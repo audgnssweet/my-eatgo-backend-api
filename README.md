@@ -1,3 +1,7 @@
-># eatgo-api 서버 내 방식대로 refactor
+># eatgo refactor
 
-eatgo-api-server 원래 출처 : https://github.com/ahastudio/fastcampus-eatgo
+gradle 멀티프로젝트
+
+springboot jpa mysql
+
+jwt 인증방식
