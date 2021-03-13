@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import study.eatgo.domain.user.dao.UserRepository;
-import study.eatgo.jwt.JwtAuthorizationFilter;
 import study.eatgo.jwt.JwtConfig;
 import study.eatgo.jwt.JwtTokenProvider;
 

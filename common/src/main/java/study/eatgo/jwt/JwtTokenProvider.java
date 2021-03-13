@@ -55,26 +55,17 @@ public class JwtTokenProvider {
     //TODO: 긴 토큰 발급 필요.
 
     //유효성 & 만료일자  확인
-    public boolean verifyToken(String jwtToken) throws JwtException{
-        try {
-            final Claims claims = getClaims(jwtToken);
-            return !claims.getExpiration().before(new Date());
-        } catch (ExpiredJwtException e) {
-            throw new JwtException("토큰 기간이 만료되었습니다");
-        }
+    public boolean verifyToken(String jwtToken) {
+        return !getClaims(jwtToken).getExpiration().before(new Date());
     }
 
     //payload 정보 얻어오기
-    public Claims getClaims(String jwtToken) throws JwtException{
-        try {
-            return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(jwtToken)
-                .getBody();
-        } catch (MalformedJwtException e) {
-            throw new JwtException("토큰이 올바르지 않습니다");
-        }
+    public Claims getClaims(String jwtToken) throws JwtException {
+        return Jwts.parserBuilder()
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(jwtToken)
+            .getBody();
     }
 
 }

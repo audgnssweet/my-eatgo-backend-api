@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import study.eatgo.domain.user.dao.UserRepository;
-import study.eatgo.jwt.JwtAuthorizationFilter;
+import study.eatgo.jwt.filter.JwtAuthorizationFilter;
 import study.eatgo.jwt.JwtConfig;
 import study.eatgo.jwt.JwtTokenProvider;
 
@@ -38,8 +38,7 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .formLogin().disable()
-            .httpBasic().disable()
-            .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtUtil(), userRepository));
+            .httpBasic().disable();
     }
 
 }

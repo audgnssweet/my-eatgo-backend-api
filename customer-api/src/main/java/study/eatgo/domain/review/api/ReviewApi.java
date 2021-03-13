@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import study.eatgo.annotations.Member;
 import study.eatgo.domain.restaurant.dao.RestaurantRepository;
 import study.eatgo.domain.restaurant.domain.Restaurant;
 import study.eatgo.domain.restaurant.exception.RestaurantNotFoundException;
@@ -24,8 +25,7 @@ public class ReviewApi {
 
     @PostMapping("/restaurants/{restaurantId}/reviews")
     public void addReview(@PathVariable Long restaurantId, @RequestBody @Valid ReviewAddRequest dto,
-        Authentication authentication) {
-        final User user = (User) authentication.getPrincipal();
+        @Member User user) {
 
         final Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(
             RestaurantNotFoundException::new);

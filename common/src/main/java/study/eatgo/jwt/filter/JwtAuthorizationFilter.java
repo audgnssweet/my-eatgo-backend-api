@@ -1,4 +1,4 @@
-package study.eatgo.jwt;
+package study.eatgo.jwt.filter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -16,6 +16,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import study.eatgo.domain.user.dao.UserRepository;
 import study.eatgo.domain.user.domain.User;
+import study.eatgo.jwt.JwtConfig;
+import study.eatgo.jwt.JwtTokenProvider;
+import study.eatgo.jwt.exception.NoAuthorizationException;
 
 //얘를 무조건 거쳐감.
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
@@ -59,7 +62,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         final String jwtToken = request.getHeader(JwtConfig.HEADER);
 
         if (Objects.isNull(jwtToken) || !jwtToken.startsWith(JwtConfig.TOKEN_PREFIX)) {
-            throw new JwtException("토큰이 잘못되었습니다");
+            throw new NoAuthorizationException();
         }
         return jwtToken.replace(JwtConfig.TOKEN_PREFIX, "");
     }

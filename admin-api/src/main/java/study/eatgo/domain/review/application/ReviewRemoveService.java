@@ -20,9 +20,7 @@ public class ReviewRemoveService {
     private final ReviewDeleteRepository reviewDeleteRepository;
 
     public void removeAllInRestaurant(User user) {
-        if (!user.isOwner()) {
-            throw new RestaurantNotFoundException();
-        }
+
         reviewDeleteRepository.removeAllByRestaurantId(user.getRestaurant().getId());
     }
 }
