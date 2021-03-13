@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import study.eatgo.aop.argumentresolver.JwtToUserArgumentResolver;
+import study.eatgo.jwt.argumentresolver.JwtToUserArgumentResolver;
 import study.eatgo.domain.user.dao.UserRepository;
 import study.eatgo.jwt.JwtTokenProvider;
 

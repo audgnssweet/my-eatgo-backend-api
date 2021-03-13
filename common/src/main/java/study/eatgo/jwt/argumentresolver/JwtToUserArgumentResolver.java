@@ -1,4 +1,4 @@
-package study.eatgo.aop.argumentresolver;
+package study.eatgo.jwt.argumentresolver;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
